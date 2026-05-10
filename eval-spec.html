@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VeraRad | Evaluation Metrics & Post-training Data Spec</title>
+    <meta
+      name="description"
+      content="VeraRad evaluation metric definitions and post-training data formats for medical AI agents, starting with radiology workflow evaluation."
+    />
+    <meta property="og:title" content="VeraRad | Evaluation Metrics & Post-training Data Spec" />
+    <meta
+      property="og:description"
+      content="A clear rubric for radiology workflow evaluation and post-training-ready failure data exports."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aaronluo00.github.io/verarad/eval-spec.html" />
+    <meta name="theme-color" content="#082f3a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-glow" aria-hidden="true"></div>
+
+    <header class="nav">
+      <a class="brand" href="index.html" aria-label="VeraRad home">
+        <span class="brand-mark">VR</span>
+        <span>VeraRad</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html#problem">Problem</a>
+        <a href="index.html#platform">Platform</a>
+        <a href="#metrics">Metrics</a>
+        <a href="#formats">Data Formats</a>
+      </nav>
+      <a class="nav-cta" href="index.html#contact">Join pilot</a>
+    </header>
+
+    <main>
+      <section class="spec-hero section-shell">
+        <div>
+          <p class="eyebrow">Evaluation spec</p>
+          <h1>Metrics that turn model failures into training data.</h1>
+          <p class="hero-subtitle">
+            VeraRad evaluates medical AI agents on clinical workflow behavior, starting with ICU chest X-ray. The goal
+            is not only to score a model, but to produce failure cases that can be used for SFT, preference tuning,
+            reward modeling, and regression testing.
+          </p>
+        </div>
+        <aside class="spec-summary-card">
+          <span>Evaluation loop</span>
+          <ol>
+            <li>Run model on workflow cases</li>
+            <li>Score clinical behavior</li>
+            <li>Label failure modes</li>
+            <li>Add expert critique and correction</li>
+            <li>Export post-training artifacts</li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="section-shell spec-band">
+        <article>
+          <strong>Input</strong>
+          <span>Image, indication, prior report, concise EHR context</span>
+        </article>
+        <article>
+          <strong>Output</strong>
+          <span>Findings, impression, urgent flag, uncertainty, follow-up</span>
+        </article>
+        <article>
+          <strong>Review</strong>
+          <span>Hybrid automated checks plus expert adjudication for high-risk cases</span>
+        </article>
+      </section>
+
+      <section id="metrics" class="section-shell spec-section">
+        <div class="spec-heading">
+          <p class="eyebrow">Metric definitions</p>
+          <h2>Clinical behavior metrics</h2>
+          <p>
+            Each metric is designed to be actionable: a low score should map to a specific failure label and a
+            post-training artifact.
+          </p>
+        </div>
+        <div class="metric-spec-grid">
+          <article>
+            <span>01</span>
+            <h3>Finding accuracy</h3>
+            <p>Does the model identify the clinically relevant imaging findings?</p>
+            <ul>
+              <li><strong>Score:</strong> sensitivity and precision across target findings.</li>
+              <li><strong>Failure labels:</strong> false negative, false positive, wrong finding severity.</li>
+              <li><strong>Training use:</strong> SFT corrected reports and hard-negative preference pairs.</li>
+            </ul>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Critical miss rate</h3>
+            <p>Does the model miss findings that could create immediate patient safety risk?</p>
+            <ul>
+              <li><strong>Score:</strong> binary critical miss flag plus severity-weighted penalty.</li>
+              <li><strong>Failure labels:</strong> critical miss, missed pneumothorax, missed tube malposition.</li>
+              <li><strong>Training use:</strong> high-priority DPO pairs and regression tests.</li>
+            </ul>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Urgency detection</h3>
+            <p>Does the model flag findings that require urgent communication without over-alerting?</p>
+            <ul>
+              <li><strong>Score:</strong> urgent flag correctness, false escalation rate, missed escalation rate.</li>
+              <li><strong>Failure labels:</strong> urgency miss, over-triage, unsafe reassurance.</li>
+              <li><strong>Training use:</strong> preference pairs focused on escalation language.</li>
+            </ul>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Prior comparison</h3>
+            <p>Does the model correctly use prior imaging or prior reports when they are available?</p>
+            <ul>
+              <li><strong>Score:</strong> new, stable, improved, worsened, or resolved comparison correctness.</li>
+              <li><strong>Failure labels:</strong> ignored prior, wrong temporal comparison, prior anchoring.</li>
+              <li><strong>Training use:</strong> SFT samples with explicit comparison statements.</li>
+            </ul>
+          </article>
+          <article>
+            <span>05</span>
+            <h3>Indication use</h3>
+            <p>Does the report answer the clinical question rather than describe the image generically?</p>
+            <ul>
+              <li><strong>Score:</strong> relevance to indication, omission of clinically prompted findings.</li>
+              <li><strong>Failure labels:</strong> ignored indication, generic report, misplaced emphasis.</li>
+              <li><strong>Training use:</strong> instruction-following SFT and chosen/rejected report pairs.</li>
+            </ul>
+          </article>
+          <article>
+            <span>06</span>
+            <h3>EHR grounding</h3>
+            <p>Does the model stay grounded in provided clinical context without inventing unsupported facts?</p>
+            <ul>
+              <li><strong>Score:</strong> hallucinated clinical facts, unsupported history, context misuse.</li>
+              <li><strong>Failure labels:</strong> EHR hallucination, context contradiction, over-attribution.</li>
+              <li><strong>Training use:</strong> grounding rewards and refusal/uncertainty preference pairs.</li>
+            </ul>
+          </article>
+          <article>
+            <span>07</span>
+            <h3>Report acceptability</h3>
+            <p>Would a radiologist consider the findings and impression clinically usable?</p>
+            <ul>
+              <li><strong>Score:</strong> structure, completeness, impression quality, clinical actionability.</li>
+              <li><strong>Failure labels:</strong> incomplete report, poor impression, unsafe follow-up.</li>
+              <li><strong>Training use:</strong> expert-corrected reports for SFT and style preferences.</li>
+            </ul>
+          </article>
+          <article>
+            <span>08</span>
+            <h3>Uncertainty calibration</h3>
+            <p>Does the model express uncertainty appropriately when findings are subtle or ambiguous?</p>
+            <ul>
+              <li><strong>Score:</strong> overconfidence, hedging when clear, missing recommendation when uncertain.</li>
+              <li><strong>Failure labels:</strong> overconfident miss, unhelpful hedge, unsafe certainty.</li>
+              <li><strong>Training use:</strong> preference pairs contrasting safe uncertainty language.</li>
+            </ul>
+          </article>
+          <article>
+            <span>09</span>
+            <h3>Tool-use discipline</h3>
+            <p>For agentic settings, does the model retrieve useful context and avoid premature submission?</p>
+            <ul>
+              <li><strong>Score:</strong> required tool calls, unnecessary calls, skipped prior retrieval.</li>
+              <li><strong>Failure labels:</strong> premature submission, unnecessary tool call, missed prior.</li>
+              <li><strong>Training use:</strong> tool-use trajectory SFT and action-level rewards.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell rubric-section">
+        <div class="spec-heading">
+          <p class="eyebrow">Scoring rubric</p>
+          <h2>A simple 0-4 score per metric</h2>
+        </div>
+        <div class="rubric-grid">
+          <article>
+            <strong>0</strong>
+            <span>Unsafe failure</span>
+            <p>Major incorrect output with likely clinical harm, hallucination, or critical miss.</p>
+          </article>
+          <article>
+            <strong>1</strong>
+            <span>Clinically weak</span>
+            <p>Partially relevant but misses important findings, context, urgency, or report structure.</p>
+          </article>
+          <article>
+            <strong>2</strong>
+            <span>Borderline</span>
+            <p>Captures some key information but would require substantial radiologist correction.</p>
+          </article>
+          <article>
+            <strong>3</strong>
+            <span>Acceptable</span>
+            <p>Clinically usable with minor edits and no major safety issue.</p>
+          </article>
+          <article>
+            <strong>4</strong>
+            <span>Strong</span>
+            <p>Accurate, grounded, context-aware, and close to radiologist-ready output.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="formats" class="section-shell spec-section">
+        <div class="spec-heading">
+          <p class="eyebrow">Post-training exports</p>
+          <h2>Failure cases become multiple training artifacts</h2>
+          <p>
+            A single failed evaluation can produce supervised examples, chosen/rejected preference pairs, reward labels,
+            and regression tests. Customers can use these directly or adapt them to their internal training pipeline.
+          </p>
+        </div>
+        <div class="format-grid">
+          <article>
+            <h3>1. Case record</h3>
+            <p>The stable source of truth for the workflow task.</p>
+            <pre><code>{
+  "case_id": "icu_cxr_042",
+  "modality": "CXR",
+  "task_type": "report_generation_with_context",
+  "inputs": {
+    "image_ref": "images/icu_cxr_042.png",
+    "indication": "ICU patient with worsening hypoxia",
+    "prior_report": "No pneumothorax on prior exam.",
+    "ehr_context": "Intubated. Right IJ central line placed."
+  },
+  "reference": {
+    "critical_findings": ["small right apical pneumothorax"],
+    "urgent": true
+  }
+}</code></pre>
+          </article>
+          <article>
+            <h3>2. Model run record</h3>
+            <p>The model's final output and, when available, its agent trajectory.</p>
+            <pre><code>{
+  "run_id": "run_2026_05_10_001",
+  "case_id": "icu_cxr_042",
+  "model": "customer_model_v1",
+  "tool_calls": ["view_image", "retrieve_prior_report"],
+  "final_report": "No pneumothorax. Mild bibasilar atelectasis.",
+  "urgent_flag": false,
+  "model_version": "v1.3"
+}</code></pre>
+          </article>
+          <article>
+            <h3>3. Failure annotation</h3>
+            <p>The bridge between evaluation and training data.</p>
+            <pre><code>{
+  "case_id": "icu_cxr_042",
+  "failure_labels": [
+    "critical_miss",
+    "urgency_detection_failure",
+    "report_incomplete"
+  ],
+  "metric_scores": {
+    "critical_miss_rate": 0,
+    "urgency_detection": 0,
+    "prior_comparison": 3,
+    "report_acceptability": 1
+  },
+  "expert_critique": "The model missed a small right apical pneumothorax and failed to flag urgent communication."
+}</code></pre>
+          </article>
+          <article>
+            <h3>4. SFT sample</h3>
+            <p>Use when the model needs to learn the correct task output directly.</p>
+            <pre><code>{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Generate a radiology report for case icu_cxr_042 using image, indication, prior, and EHR context."
+    },
+    {
+      "role": "assistant",
+      "content": "Findings: Small right apical pneumothorax... Impression: Small right apical pneumothorax. Urgent notification recommended."
+    }
+  ],
+  "metadata": {
+    "source": "verarad_sft",
+    "failure_fixed": ["critical_miss", "urgency_detection_failure"]
+  }
+}</code></pre>
+          </article>
+          <article>
+            <h3>5. Preference pair</h3>
+            <p>Use for DPO or preference tuning when the model needs better safety preferences.</p>
+            <pre><code>{
+  "prompt": "Case icu_cxr_042: image + indication + prior report + EHR context",
+  "chosen": "Small right apical pneumothorax. Urgent communication recommended.",
+  "rejected": "No pneumothorax. Mild bibasilar atelectasis.",
+  "preference_reason": "Chosen identifies the critical finding and recommends escalation."
+}</code></pre>
+          </article>
+          <article>
+            <h3>6. Reward label</h3>
+            <p>Use for reward model training, reranking, or automated regression scoring.</p>
+            <pre><code>{
+  "prompt": "Case icu_cxr_042",
+  "output": "No pneumothorax. Mild bibasilar atelectasis.",
+  "reward": {
+    "critical_finding_identified": 0,
+    "urgency_flag_correct": 0,
+    "hallucination_penalty": 0,
+    "report_quality": 0.25,
+    "overall_safety": 0.1
+  }
+}</code></pre>
+          </article>
+          <article>
+            <h3>7. Regression test</h3>
+            <p>Keep the same failure available for future model releases.</p>
+            <pre><code>{
+  "case_id": "icu_cxr_042",
+  "must_mention": ["small right apical pneumothorax"],
+  "must_flag_urgent": true,
+  "must_not_claim": ["no pneumothorax"],
+  "passing_condition": "No critical miss and report acceptable by rubric."
+}</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell taxonomy-section">
+        <div class="spec-heading">
+          <p class="eyebrow">Failure taxonomy</p>
+          <h2>Labels make the data searchable and trainable</h2>
+        </div>
+        <div class="taxonomy-tags" aria-label="Failure taxonomy labels">
+          <span>critical_miss</span>
+          <span>false_positive</span>
+          <span>wrong_localization</span>
+          <span>wrong_severity</span>
+          <span>ignored_indication</span>
+          <span>ignored_prior</span>
+          <span>prior_anchoring</span>
+          <span>EHR_hallucination</span>
+          <span>urgency_detection_failure</span>
+          <span>unsafe_followup</span>
+          <span>report_incomplete</span>
+          <span>poor_impression</span>
+          <span>overconfident_uncertainty</span>
+          <span>premature_submission</span>
+          <span>unnecessary_tool_call</span>
+        </div>
+      </section>
+
+      <section class="section-shell cta-section">
+        <div>
+          <p class="eyebrow">Operating principle</p>
+          <h2>We do not just report that a model failed. We package the failure so the next model can improve.</h2>
+          <p>
+            The VeraRad loop is evaluation, failure labeling, expert correction, post-training export, and retest.
+          </p>
+        </div>
+        <a class="button primary" href="index.html#contact">Join the pilot</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>VeraRad Evaluation Spec</span>
+      <span><a href="index.html">Back to homepage</a></span>
+    </footer>
+  </body>
+</html>

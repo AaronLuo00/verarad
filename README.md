@@ -25,5 +25,6 @@ VeraRad helps medical multimodal model teams evaluate whether their medical AI a
 - Problem: static image benchmarks do not capture workflow readiness.
 - Platform: workflow cases, evaluation harness, clinical scorecards, training data exports.
 - Metrics: indication use, prior comparison, critical miss rate, EHR hallucination, urgency detection, report acceptability.
+- Eval spec: detailed metric definitions, 0-4 scoring rubric, failure taxonomy, and post-training data JSONL examples.
 - Initial suite: ICU portable chest X-ray agent evaluation.
 - CTA: pilot program for medical VLM and radiology AI teams.
