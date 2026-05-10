@@ -1,6 +1,6 @@
 # VeraRad
 
-Company homepage MVP for VeraRad: the evaluation layer for radiology AI agents.
+Company homepage MVP for VeraRad: the evaluation layer for medical AI agents, starting with radiology.
 
 ## Local preview
 
@@ -18,7 +18,7 @@ http://localhost:4173
 
 ## Positioning
 
-VeraRad helps medical multimodal model teams evaluate whether their radiology AI agents can perform clinical workflow tasks safely, use context appropriately, avoid critical misses, and turn failures into post-training data.
+VeraRad helps medical multimodal model teams evaluate whether their medical AI agents can perform clinical workflow tasks safely, use context appropriately, avoid critical misses, and turn failures into post-training data. The initial wedge is radiology workflow evaluation.
 
 ## Core sections
 

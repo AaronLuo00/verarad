@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VeraRad | Clinical Driving Tests for Radiology AI Agents</title>
+    <title>VeraRad | The Evaluation Layer for Medical AI Agents</title>
     <meta
       name="description"
-      content="VeraRad builds private radiology workflow evaluations and post-training data exports for medical VLM and radiology AI teams."
+      content="VeraRad builds clinical workflow evaluations and post-training data exports for medical AI agents, starting with radiology."
     />
-    <meta property="og:title" content="VeraRad | Clinical Driving Tests for Radiology AI Agents" />
+    <meta property="og:title" content="VeraRad | The Evaluation Layer for Medical AI Agents" />
     <meta
       property="og:description"
       content="Evaluate whether medical multimodal models can work through radiology cases safely, use context, compare priors, and produce clinically usable reports."
@@ -44,12 +44,11 @@
     <main id="top">
       <section class="hero section-shell">
         <div class="hero-copy">
-          <p class="eyebrow">Radiology AI evaluation infrastructure</p>
-          <h1>Clinical driving tests for radiology AI agents.</h1>
+          <p class="eyebrow">The evaluation layer for medical AI agents</p>
+          <h1>Clinical driving tests for medical AI agents.</h1>
           <p class="hero-subtitle">
-            VeraRad tests whether medical vision-language models can behave like safe radiology workflow agents before
-            hospitals see them: read the image, use clinical context, compare priors, flag urgent findings, and write
-            usable reports.
+            VeraRad starts with radiology workflow evaluations for medical vision-language models, helping teams uncover
+            dangerous failure modes and convert them into post-training data.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#contact">Apply for pilot access</a>
@@ -57,16 +56,19 @@
           </div>
           <div class="hero-proof" aria-label="Pilot proof points">
             <div>
-              <strong>50-100</strong>
-              <span>curated ICU CXR workflow cases</span>
+              <span>Starting wedge</span>
+              <strong>ICU chest X-ray</strong>
+              <p>Context-heavy, high-frequency, safety-critical workflow cases.</p>
             </div>
             <div>
-              <strong>8</strong>
-              <span>clinical behavior metrics</span>
+              <span>First users</span>
+              <strong>Medical VLM teams</strong>
+              <p>Private evals before hospital pilots, partner demos, or model releases.</p>
             </div>
             <div>
-              <strong>2 weeks</strong>
-              <span>private evaluation cycle</span>
+              <span>Output</span>
+              <strong>Failures to training data</strong>
+              <p>Scorecards, expert critiques, corrected reports, and retest sets.</p>
             </div>
           </div>
         </div>
@@ -90,7 +92,7 @@
               <div class="console-header">
                 <div>
                   <p>Model readiness</p>
-                  <h2>Radiology Agent</h2>
+                  <h2>Medical VLM Pilot</h2>
                 </div>
                 <span class="risk-pill">Medium risk</span>
               </div>
@@ -123,6 +125,17 @@
                   <strong>78</strong>
                 </div>
               </div>
+              <div class="trace-card">
+                <div>
+                  <span>Post-training export</span>
+                  <strong>42 failure examples ready</strong>
+                </div>
+                <div class="tag-row">
+                  <em>critical miss</em>
+                  <em>prior anchoring</em>
+                  <em>EHR hallucination</em>
+                </div>
+              </div>
             </div>
           </div>
         </aside>
@@ -134,6 +147,32 @@
         <strong>radiology report generation</strong>
         <strong>clinical agents</strong>
         <strong>multimodal foundation models</strong>
+      </section>
+
+      <section class="positioning-section section-shell">
+        <div class="positioning-copy">
+          <p class="eyebrow">Positioning</p>
+          <h2>Not a data marketplace. Not another leaderboard.</h2>
+          <p>
+            VeraRad is a clinical simulation layer for medical AI agents, starting with radiology.
+            We evaluate whether a model can complete workflow tasks safely, not just answer isolated image questions.
+          </p>
+        </div>
+        <div class="positioning-compare" aria-label="Static benchmark versus VeraRad workflow evaluation">
+          <article class="compare-card muted-card">
+            <span>Static benchmark</span>
+            <h3>What is in this image?</h3>
+            <p>Single-shot answers, limited context, shallow signal for deployment readiness.</p>
+          </article>
+          <div class="compare-bridge" aria-hidden="true">
+            <span></span>
+          </div>
+          <article class="compare-card accent-card">
+            <span>VeraRad workflow eval</span>
+            <h3>Can the agent complete the clinical task safely?</h3>
+            <p>Context use, prior comparison, urgency detection, report quality, and training-ready failures.</p>
+          </article>
+        </div>
       </section>
 
       <section id="problem" class="section-shell problem-section">
@@ -312,7 +351,7 @@
 
     <footer class="footer">
       <span>VeraRad</span>
-      <span>Clinical evaluation and post-training data infrastructure for radiology AI agents.</span>
+      <span>Clinical evaluation and post-training data infrastructure for medical AI agents, starting with radiology.</span>
     </footer>
 
     <script src="app.js"></script>
