@@ -124,8 +124,12 @@ function renderScorecard(key) {
 
 document.querySelectorAll(".model-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".model-tab").forEach((item) => item.classList.remove("active"));
+    document.querySelectorAll(".model-tab").forEach((item) => {
+      item.classList.remove("active");
+      item.setAttribute("aria-pressed", "false");
+    });
     tab.classList.add("active");
+    tab.setAttribute("aria-pressed", "true");
     renderScorecard(tab.dataset.model);
   });
 });

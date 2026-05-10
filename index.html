@@ -3,11 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VeraRad | The Evaluation Layer for Radiology AI Agents</title>
+    <title>VeraRad | Clinical Driving Tests for Radiology AI Agents</title>
     <meta
       name="description"
-      content="VeraRad builds clinical workflow evaluations and post-training data exports for radiology AI agents and medical multimodal model teams."
+      content="VeraRad builds private radiology workflow evaluations and post-training data exports for medical VLM and radiology AI teams."
     />
+    <meta property="og:title" content="VeraRad | Clinical Driving Tests for Radiology AI Agents" />
+    <meta
+      property="og:description"
+      content="Evaluate whether medical multimodal models can work through radiology cases safely, use context, compare priors, and produce clinically usable reports."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aaronluo00.github.io/verarad/" />
+    <meta name="theme-color" content="#082f3a" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,7 +36,7 @@
         <a href="#problem">Problem</a>
         <a href="#platform">Platform</a>
         <a href="#metrics">Metrics</a>
-        <a href="#suite">Pilot suite</a>
+        <a href="#pilot">Pilot</a>
       </nav>
       <a class="nav-cta" href="#contact">Join pilot</a>
     </header>
@@ -36,20 +44,21 @@
     <main id="top">
       <section class="hero section-shell">
         <div class="hero-copy">
-          <p class="eyebrow">The evaluation layer for radiology AI agents</p>
-          <h1>Clinical driving tests for medical vision-language models.</h1>
+          <p class="eyebrow">Radiology AI evaluation infrastructure</p>
+          <h1>Clinical driving tests for radiology AI agents.</h1>
           <p class="hero-subtitle">
-            VeraRad helps teams building radiology AI agents measure workflow readiness, uncover dangerous failure
-            modes, and convert those failures into post-training data.
+            VeraRad tests whether medical vision-language models can behave like safe radiology workflow agents before
+            hospitals see them: read the image, use clinical context, compare priors, flag urgent findings, and write
+            usable reports.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#contact">Apply for pilot access</a>
-            <a class="button secondary" href="#platform">See how it works</a>
+            <a class="button secondary" href="#platform">See the workflow</a>
           </div>
-          <div class="hero-proof" aria-label="Product proof points">
+          <div class="hero-proof" aria-label="Pilot proof points">
             <div>
               <strong>50-100</strong>
-              <span>curated workflow cases</span>
+              <span>curated ICU CXR workflow cases</span>
             </div>
             <div>
               <strong>8</strong>
@@ -57,7 +66,7 @@
             </div>
             <div>
               <strong>2 weeks</strong>
-              <span>pilot evaluation cycle</span>
+              <span>private evaluation cycle</span>
             </div>
           </div>
         </div>
@@ -72,16 +81,16 @@
           <div class="console-layout">
             <div class="console-sidebar">
               <span class="suite-badge">ICU CXR Suite</span>
-              <button class="active">Readiness</button>
-              <button>Failures</button>
-              <button>Cases</button>
-              <button>Exports</button>
+              <button type="button" class="active">Readiness</button>
+              <button type="button">Failures</button>
+              <button type="button">Cases</button>
+              <button type="button">Exports</button>
             </div>
             <div class="console-main">
               <div class="console-header">
                 <div>
                   <p>Model readiness</p>
-              <h2>Radiology Agent</h2>
+                  <h2>Radiology Agent</h2>
                 </div>
                 <span class="risk-pill">Medium risk</span>
               </div>
@@ -120,7 +129,7 @@
       </section>
 
       <section class="audience-strip section-shell" aria-label="Designed for">
-        <span>Built for teams shipping</span>
+        <span>Built for model builders shipping</span>
         <strong>medical VLMs</strong>
         <strong>radiology report generation</strong>
         <strong>clinical agents</strong>
@@ -130,30 +139,47 @@
       <section id="problem" class="section-shell problem-section">
         <div>
           <p class="eyebrow">Why now</p>
-          <h2>Radiology AI is moving from image models to clinical agents.</h2>
+          <h2>Static benchmarks do not tell you whether a model is clinically usable.</h2>
         </div>
         <div class="problem-cards">
           <article>
-            <h3>Static benchmarks miss the deployment blockers.</h3>
+            <h3>Real radiology is a workflow, not an image caption.</h3>
             <p>
-              Radiology deployment depends on context use, prior comparison, uncertainty, urgency handling, and report
-              quality. A single image-to-answer score rarely exposes those failure modes.
+              Deployment depends on clinical indication, prior comparison, urgency, uncertainty, and reporting style.
+              Single-image scores rarely expose the failures that matter in practice.
             </p>
           </article>
           <article>
             <h3>Model teams need failures they can train on.</h3>
             <p>
-              A useful evaluation should not end with a leaderboard score. It should identify dangerous failures and
-              package corrected examples, critiques, and regression cases for post-training.
+              A useful evaluation should not end with a leaderboard score. It should identify dangerous misses and
+              package corrected examples, critiques, and regression cases for the next training run.
             </p>
           </article>
+        </div>
+      </section>
+
+      <section class="section-shell positioning-section" aria-label="Positioning">
+        <div class="positioning-card">
+          <p class="eyebrow">Positioning</p>
+          <h2>Not a data marketplace. Not another leaderboard. A radiology gym for medical AI agents.</h2>
+          <div class="contrast-grid">
+            <div>
+              <span>Static benchmark</span>
+              <strong>What is in this image?</strong>
+            </div>
+            <div>
+              <span>VeraRad workflow eval</span>
+              <strong>Can the agent finish a clinical radiology task safely?</strong>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="platform" class="section-shell platform-section">
         <div class="section-heading">
           <p class="eyebrow">Platform</p>
-          <h2>Private evals that become a training data engine.</h2>
+          <h2>Private evals that become a post-training data engine.</h2>
           <p>
             We structure radiology cases as workflow tasks, score model behavior with clinical rubrics, and turn
             repeated failure modes into training assets your team can use.
@@ -177,8 +203,8 @@
           </article>
           <article>
             <span>04</span>
-            <h3>Post-training exports</h3>
-            <p>Export expert critiques, corrected reports, preference pairs, and regression sets.</p>
+            <h3>Training exports</h3>
+            <p>Export expert critiques, corrected reports, preference pairs, reward signals, and regression sets.</p>
           </article>
         </div>
       </section>
@@ -187,9 +213,7 @@
         <div class="metrics-intro">
           <p class="eyebrow">Clinical metrics</p>
           <h2>Measure what blocks deployment.</h2>
-          <p>
-            The first suite focuses on clinically meaningful behaviors instead of generic benchmark points.
-          </p>
+          <p>The first suite focuses on clinically meaningful behaviors instead of generic benchmark points.</p>
         </div>
         <div class="metric-board" id="metricBoard"></div>
       </section>
@@ -212,18 +236,18 @@
             <span id="riskBadge">High risk</span>
           </div>
           <div class="score-orb">
-            <div id="radarCore">61</div>
+            <div id="radarCore" aria-live="polite">61</div>
           </div>
           <div class="bar-list" id="scoreBars"></div>
           <div class="switcher" aria-label="Select scorecard">
-            <button class="model-tab active" data-model="baseline">Baseline</button>
-            <button class="model-tab" data-model="agent">Agentic</button>
-            <button class="model-tab" data-model="after">After tuning</button>
+            <button type="button" class="model-tab active" data-model="baseline" aria-pressed="true">Baseline</button>
+            <button type="button" class="model-tab" data-model="agent" aria-pressed="false">Agentic</button>
+            <button type="button" class="model-tab" data-model="after" aria-pressed="false">After tuning</button>
           </div>
         </div>
       </section>
 
-      <section id="suite" class="section-shell suite-section">
+      <section id="pilot" class="section-shell suite-section">
         <div class="suite-card">
           <p class="eyebrow">Initial wedge</p>
           <h2>ICU Portable Chest X-ray Agent Evaluation</h2>
@@ -261,6 +285,11 @@
             <h3>Review failures and exports</h3>
             <p>Receive readiness analysis and post-training assets for your next model iteration.</p>
           </article>
+          <article class="privacy-note">
+            <span>Data stance</span>
+            <h3>Private by default</h3>
+            <p>Pilots can start with de-identified cases and model-output review. No live hospital integration is required for the first evaluation.</p>
+          </article>
         </div>
       </section>
 
@@ -269,11 +298,11 @@
           <p class="eyebrow">Pilot program</p>
           <h2>Build the next model iteration from the failures that matter.</h2>
           <p>
-            We are working with medical AI teams building radiology report generation, multimodal medical models, and
+            For model builders and radiology AI vendors building report generation, multimodal medical models, or
             clinical agents that need private workflow evaluation.
           </p>
         </div>
-        <a class="button primary" href="mailto:hello@verarad.ai">Request pilot access</a>
+        <a class="button primary" href="mailto:xiaolongluo@g.harvard.edu?subject=VeraRad%20pilot%20access">Request pilot access</a>
       </section>
     </main>
 
