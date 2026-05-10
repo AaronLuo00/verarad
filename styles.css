@@ -1013,12 +1013,17 @@ h3 {
 }
 
 .metric-accordion {
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
   min-height: 0;
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(17, 38, 45, 0.12);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(108, 235, 220, 0.07), transparent 13rem),
+    rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 46px rgba(14, 23, 27, 0.075);
   overflow: hidden;
   transition:
     border-color 180ms ease,
@@ -1036,9 +1041,15 @@ h3 {
   grid-template-columns: 44px 1fr 32px;
   gap: 18px;
   align-items: start;
-  padding: 22px 24px;
+  min-height: 190px;
+  padding: 26px;
   cursor: pointer;
   list-style: none;
+  outline: none;
+}
+
+.metric-accordion summary::marker {
+  content: "";
 }
 
 .metric-accordion summary::-webkit-details-marker {
@@ -1064,6 +1075,8 @@ h3 {
 
 .metric-accordion summary p {
   margin-bottom: 0;
+  font-size: 16px;
+  line-height: 1.68;
 }
 
 .metric-accordion summary i {
@@ -1094,6 +1107,11 @@ h3 {
 
 .metric-accordion[open] summary i::after {
   transform: rotate(0deg);
+}
+
+.metric-accordion[open] summary {
+  min-height: auto;
+  border-bottom: 1px solid rgba(17, 38, 45, 0.08);
 }
 
 .metric-accordion .formula-block,
