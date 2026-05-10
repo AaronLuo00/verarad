@@ -114,10 +114,15 @@
           </p>
         </div>
         <div class="metric-spec-grid">
-          <article>
-            <span>01</span>
-            <h3>Finding accuracy</h3>
-            <p>Does the model identify the clinically relevant imaging findings?</p>
+          <details class="metric-accordion" open>
+            <summary>
+              <span>01</span>
+              <div>
+                <h3>Finding accuracy</h3>
+                <p>Does the model identify the clinically relevant imaging findings?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -135,11 +140,16 @@
               <li><strong>Failure labels:</strong> false negative, false positive, wrong finding severity.</li>
               <li><strong>Training use:</strong> SFT corrected reports and hard-negative preference pairs.</li>
             </ul>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Critical miss rate</h3>
-            <p>Does the model miss findings that could create immediate patient safety risk?</p>
+          </details>
+          <details class="metric-accordion" open>
+            <summary>
+              <span>02</span>
+              <div>
+                <h3>Critical miss rate</h3>
+                <p>Does the model miss findings that could create immediate patient safety risk?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -157,11 +167,16 @@
               <li><strong>Failure labels:</strong> critical miss, missed pneumothorax, missed tube malposition.</li>
               <li><strong>Training use:</strong> high-priority DPO pairs and regression tests.</li>
             </ul>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Urgency detection</h3>
-            <p>Does the model flag findings that require urgent communication without over-alerting?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>03</span>
+              <div>
+                <h3>Urgency detection</h3>
+                <p>Does the model flag findings that require urgent communication without over-alerting?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -180,11 +195,16 @@
               <li><strong>Failure labels:</strong> urgency miss, over-triage, unsafe reassurance.</li>
               <li><strong>Training use:</strong> preference pairs focused on escalation language.</li>
             </ul>
-          </article>
-          <article>
-            <span>04</span>
-            <h3>Prior comparison</h3>
-            <p>Does the model correctly use prior imaging or prior reports when they are available?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>04</span>
+              <div>
+                <h3>Prior comparison</h3>
+                <p>Does the model correctly use prior imaging or prior reports when they are available?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -203,11 +223,16 @@
               <li><strong>Failure labels:</strong> ignored prior, wrong temporal comparison, prior anchoring.</li>
               <li><strong>Training use:</strong> SFT samples with explicit comparison statements.</li>
             </ul>
-          </article>
-          <article>
-            <span>05</span>
-            <h3>Indication use</h3>
-            <p>Does the report answer the clinical question rather than describe the image generically?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>05</span>
+              <div>
+                <h3>Indication use</h3>
+                <p>Does the report answer the clinical question rather than describe the image generically?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -225,11 +250,16 @@
               <li><strong>Failure labels:</strong> ignored indication, generic report, misplaced emphasis.</li>
               <li><strong>Training use:</strong> instruction-following SFT and chosen/rejected report pairs.</li>
             </ul>
-          </article>
-          <article>
-            <span>06</span>
-            <h3>EHR grounding</h3>
-            <p>Does the model stay grounded in provided clinical context without inventing unsupported facts?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>06</span>
+              <div>
+                <h3>EHR grounding</h3>
+                <p>Does the model stay grounded in provided clinical context without inventing unsupported facts?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -247,11 +277,16 @@
               <li><strong>Failure labels:</strong> EHR hallucination, context contradiction, over-attribution.</li>
               <li><strong>Training use:</strong> grounding rewards and refusal/uncertainty preference pairs.</li>
             </ul>
-          </article>
-          <article>
-            <span>07</span>
-            <h3>Report acceptability</h3>
-            <p>Would a radiologist consider the findings and impression clinically usable?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>07</span>
+              <div>
+                <h3>Report acceptability</h3>
+                <p>Would a radiologist consider the findings and impression clinically usable?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -270,11 +305,16 @@
               <li><strong>Failure labels:</strong> incomplete report, poor impression, unsafe follow-up.</li>
               <li><strong>Training use:</strong> expert-corrected reports for SFT and style preferences.</li>
             </ul>
-          </article>
-          <article>
-            <span>08</span>
-            <h3>Uncertainty calibration</h3>
-            <p>Does the model express uncertainty appropriately when findings are subtle or ambiguous?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>08</span>
+              <div>
+                <h3>Uncertainty calibration</h3>
+                <p>Does the model express uncertainty appropriately when findings are subtle or ambiguous?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -293,11 +333,16 @@
               <li><strong>Failure labels:</strong> overconfident miss, unhelpful hedge, unsafe certainty.</li>
               <li><strong>Training use:</strong> preference pairs contrasting safe uncertainty language.</li>
             </ul>
-          </article>
-          <article>
-            <span>09</span>
-            <h3>Tool-use discipline</h3>
-            <p>For agentic settings, does the model retrieve useful context and avoid premature submission?</p>
+          </details>
+          <details class="metric-accordion">
+            <summary>
+              <span>09</span>
+              <div>
+                <h3>Tool-use discipline</h3>
+                <p>For agentic settings, does the model retrieve useful context and avoid premature submission?</p>
+              </div>
+              <i aria-hidden="true"></i>
+            </summary>
             <div class="formula-block">
               <strong>Mathematical definition</strong>
               <p>
@@ -317,7 +362,7 @@
               <li><strong>Failure labels:</strong> premature submission, unnecessary tool call, missed prior.</li>
               <li><strong>Training use:</strong> tool-use trajectory SFT and action-level rewards.</li>
             </ul>
-          </article>
+          </details>
         </div>
       </section>
 
