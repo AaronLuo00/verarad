@@ -1,7 +1,7 @@
 :root {
-  --ink: #0e171b;
-  --muted: #627177;
-  --subtle: #8a979c;
+  --ink: #11191d;
+  --muted: #5d6a70;
+  --subtle: #78878d;
   --surface: #ffffff;
   --surface-soft: #f7f9f7;
   --cream: #fbf8f0;
@@ -14,8 +14,8 @@
   --mint: #ddfbf2;
   --gold: #d8bd65;
   --red: #dd725c;
-  --shadow-soft: 0 18px 48px rgba(14, 23, 27, 0.08);
-  --shadow-lift: 0 30px 90px rgba(14, 23, 27, 0.14);
+  --shadow-soft: 0 16px 38px rgba(14, 23, 27, 0.065);
+  --shadow-lift: 0 26px 76px rgba(14, 23, 27, 0.12);
   --radius-xl: 32px;
   --radius-lg: 22px;
   --radius-md: 16px;
@@ -186,10 +186,10 @@ a {
 
 .eyebrow {
   margin: 0 0 16px;
-  color: var(--teal);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.14em;
+  color: #0c8f85;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -205,24 +205,25 @@ h2,
 h3 {
   color: var(--ink);
   font-family: var(--heading);
-  letter-spacing: -0.055em;
+  font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
 h1 {
   max-width: 790px;
   margin-bottom: 22px;
-  font-size: clamp(46px, 6vw, 76px);
-  line-height: 0.96;
+  font-size: clamp(46px, 5.8vw, 72px);
+  line-height: 1;
 }
 
 h2 {
-  font-size: clamp(34px, 4.2vw, 56px);
-  line-height: 1.02;
+  font-size: clamp(34px, 3.9vw, 52px);
+  line-height: 1.06;
 }
 
 h3 {
-  font-size: 21px;
-  line-height: 1.18;
+  font-size: 20px;
+  line-height: 1.22;
 }
 
 .hero-subtitle {
@@ -526,9 +527,22 @@ h3 {
 
 .problem-section {
   display: grid;
-  grid-template-columns: 0.82fr 1.18fr;
-  gap: 48px;
-  padding: 116px 0 46px;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(520px, 1.1fr);
+  gap: 64px;
+  align-items: start;
+  padding: 104px 0 42px;
+}
+
+.problem-section > div:first-child {
+  max-width: 520px;
+}
+
+.section-kicker {
+  max-width: 440px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.66;
 }
 
 .problem-cards,
@@ -539,7 +553,8 @@ h3 {
 }
 
 .problem-cards {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-top: 6px;
 }
 
 .problem-cards article,
@@ -555,9 +570,16 @@ h3 {
 }
 
 .problem-cards article {
-  min-height: 260px;
-  padding: 26px;
-  border-radius: var(--radius-lg);
+  min-height: 230px;
+  padding: 28px;
+  border-radius: 24px;
+}
+
+.problem-cards h3 {
+  max-width: 300px;
+  margin-bottom: 22px;
+  font-size: 19px;
+  letter-spacing: -0.03em;
 }
 
 .problem-cards p,
@@ -573,13 +595,13 @@ h3 {
 }
 
 .positioning-section {
-  padding: 18px 0 48px;
+  padding: 20px 0 54px;
 }
 
 .positioning-card {
   position: relative;
   overflow: hidden;
-  padding: 34px;
+  padding: 42px;
   border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at 96% 0%, rgba(108, 235, 220, 0.22), transparent 20rem),
@@ -587,19 +609,27 @@ h3 {
 }
 
 .positioning-card h2 {
-  max-width: 920px;
-  margin-bottom: 26px;
-  font-size: clamp(30px, 3.6vw, 48px);
+  max-width: 760px;
+  margin-bottom: 10px;
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 1.03;
+}
+
+.positioning-subtitle {
+  margin-bottom: 30px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.55;
 }
 
 .contrast-grid {
   display: grid;
-  grid-template-columns: 0.86fr 1.14fr;
+  grid-template-columns: 0.92fr 1.08fr;
   gap: 14px;
 }
 
 .contrast-grid div {
-  padding: 20px;
+  padding: 22px;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.72);
@@ -628,9 +658,10 @@ h3 {
 .contrast-grid strong {
   display: block;
   font-family: var(--heading);
-  font-size: clamp(20px, 2.2vw, 28px);
-  line-height: 1.16;
-  letter-spacing: -0.04em;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.032em;
 }
 
 .platform-section {
