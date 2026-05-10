@@ -22,6 +22,13 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [["\\(", "\\)"], ["$", "$"]] },
+        svg: { fontCache: "global" }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -88,11 +95,41 @@
             post-training artifact.
           </p>
         </div>
+        <div class="notation-card">
+          <h3>Notation</h3>
+          <p>
+            Let \(C\) be an evaluation suite of cases. For case \(c\), the model receives input
+            \(x_c=(I_c,q_c,p_c,e_c)\): image, clinical indication, prior context, and EHR context. The model output is
+            \(y_c\), including findings, impression, urgent flag, and optional tool trace. Expert reference labels are
+            \(r_c\). Each metric \(m\) produces a case-level score \(s_m(c)\in[0,1]\), where 1 is best. The suite score
+            is a weighted average:
+          </p>
+          <div class="math-card">\[
+            S_m = \frac{\sum_{c\in C} w_c\,s_m(c)}{\sum_{c\in C} w_c}
+          \]</div>
+          <p>
+            Critical cases receive larger \(w_c\). A final readiness score can be computed as
+            \(R=\sum_m \alpha_m S_m\), with safety metrics such as critical misses and urgency detection assigned
+            higher weights.
+          </p>
+        </div>
         <div class="metric-spec-grid">
           <article>
             <span>01</span>
             <h3>Finding accuracy</h3>
             <p>Does the model identify the clinically relevant imaging findings?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Let \(G_c\) be the set of reference findings and \(\hat{G}_c\) the set extracted from the model report.
+                We use a finding-level F-score:
+              </p>
+              <div class="math-card">\[
+                P_c=\frac{|G_c\cap \hat{G}_c|}{|\hat{G}_c|+\epsilon},\quad
+                R_c=\frac{|G_c\cap \hat{G}_c|}{|G_c|+\epsilon},\quad
+                s_{\mathrm{find}}(c)=\frac{2P_cR_c}{P_c+R_c+\epsilon}
+              \]</div>
+            </div>
             <ul>
               <li><strong>Score:</strong> sensitivity and precision across target findings.</li>
               <li><strong>Failure labels:</strong> false negative, false positive, wrong finding severity.</li>
@@ -103,6 +140,18 @@
             <span>02</span>
             <h3>Critical miss rate</h3>
             <p>Does the model miss findings that could create immediate patient safety risk?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Let \(K_c\subseteq G_c\) be critical findings, and let \(z_k=1\) if critical finding \(k\) is mentioned
+                with clinically acceptable language. A miss is severity-weighted:
+              </p>
+              <div class="math-card">\[
+                \mathrm{CMR}=\frac{\sum_{c\in C}\sum_{k\in K_c}\lambda_k(1-z_k)}
+                {\sum_{c\in C}\sum_{k\in K_c}\lambda_k+\epsilon},\quad
+                S_{\mathrm{critical}}=1-\mathrm{CMR}
+              \]</div>
+            </div>
             <ul>
               <li><strong>Score:</strong> binary critical miss flag plus severity-weighted penalty.</li>
               <li><strong>Failure labels:</strong> critical miss, missed pneumothorax, missed tube malposition.</li>
@@ -113,6 +162,19 @@
             <span>03</span>
             <h3>Urgency detection</h3>
             <p>Does the model flag findings that require urgent communication without over-alerting?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Let \(u_c\in\{0,1\}\) be the reference urgent label and \(\hat{u}_c\in\{0,1\}\) the model urgent flag.
+                We combine recall and precision because both missed escalation and over-alerting matter:
+              </p>
+              <div class="math-card">\[
+                S_{\mathrm{urg}} = F_{\beta}(u,\hat{u}),\quad
+                F_{\beta}=\frac{(1+\beta^2)\,\mathrm{Prec}\,\mathrm{Rec}}
+                {\beta^2\mathrm{Prec}+\mathrm{Rec}+\epsilon}
+              \]</div>
+              <p>For safety-critical settings, \(\beta&gt;1\) weights missed urgent findings more heavily.</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> urgent flag correctness, false escalation rate, missed escalation rate.</li>
               <li><strong>Failure labels:</strong> urgency miss, over-triage, unsafe reassurance.</li>
@@ -123,6 +185,19 @@
             <span>04</span>
             <h3>Prior comparison</h3>
             <p>Does the model correctly use prior imaging or prior reports when they are available?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                For comparable findings \(j\), let \(t_{c,j}\in\{\mathrm{new},\mathrm{stable},\mathrm{improved},
+                \mathrm{worsened},\mathrm{resolved}\}\) be the reference temporal relation and \(\hat{t}_{c,j}\) the
+                model relation.
+              </p>
+              <div class="math-card">\[
+                s_{\mathrm{prior}}(c)=\frac{1}{|T_c|}\sum_{j\in T_c}
+                \mathbf{1}\{\hat{t}_{c,j}=t_{c,j}\}
+              \]</div>
+              <p>Anchoring to an incorrect prior can apply an additional penalty \(\rho_{\mathrm{anchor}}\).</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> new, stable, improved, worsened, or resolved comparison correctness.</li>
               <li><strong>Failure labels:</strong> ignored prior, wrong temporal comparison, prior anchoring.</li>
@@ -133,6 +208,18 @@
             <span>05</span>
             <h3>Indication use</h3>
             <p>Does the report answer the clinical question rather than describe the image generically?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Let \(A_c\) be indication-triggered required concepts and \(\hat{A}_c\) concepts addressed in the
+                report. The score combines concept coverage and expert relevance:
+              </p>
+              <div class="math-card">\[
+                s_{\mathrm{ind}}(c)=\eta\,\frac{|A_c\cap \hat{A}_c|}{|A_c|+\epsilon}
+                +(1-\eta)\,h_{\mathrm{rel}}(c)
+              \]</div>
+              <p>\(h_{\mathrm{rel}}(c)\in[0,1]\) is a human or judge-assisted relevance score.</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> relevance to indication, omission of clinically prompted findings.</li>
               <li><strong>Failure labels:</strong> ignored indication, generic report, misplaced emphasis.</li>
@@ -143,6 +230,18 @@
             <span>06</span>
             <h3>EHR grounding</h3>
             <p>Does the model stay grounded in provided clinical context without inventing unsupported facts?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Extract clinical claims \(Q_c(y)\) from the model report. Each claim is labeled supported,
+                contradicted, or unsupported against the provided EHR context \(e_c\).
+              </p>
+              <div class="math-card">\[
+                s_{\mathrm{ground}}(c)=1-
+                \frac{N_{\mathrm{unsupported}}+\gamma N_{\mathrm{contradicted}}}{|Q_c(y)|+\epsilon}
+              \]</div>
+              <p>Contradictions receive \(\gamma&gt;1\) because they are more dangerous than unsupported additions.</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> hallucinated clinical facts, unsupported history, context misuse.</li>
               <li><strong>Failure labels:</strong> EHR hallucination, context contradiction, over-attribution.</li>
@@ -153,6 +252,19 @@
             <span>07</span>
             <h3>Report acceptability</h3>
             <p>Would a radiologist consider the findings and impression clinically usable?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Report quality is a weighted rubric over structure, completeness, impression quality, and clinical
+                actionability:
+              </p>
+              <div class="math-card">\[
+                s_{\mathrm{report}}(c)=
+                \sum_{d\in D}\omega_d\,h_d(c),\quad
+                D=\{\mathrm{structure},\mathrm{complete},\mathrm{impression},\mathrm{actionable}\}
+              \]</div>
+              <p>Each \(h_d(c)\in[0,1]\) is expert-scored or judge-assisted with expert audit.</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> structure, completeness, impression quality, clinical actionability.</li>
               <li><strong>Failure labels:</strong> incomplete report, poor impression, unsafe follow-up.</li>
@@ -163,6 +275,19 @@
             <span>08</span>
             <h3>Uncertainty calibration</h3>
             <p>Does the model express uncertainty appropriately when findings are subtle or ambiguous?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                If the model reports confidence \(\hat{p}_c\) and the outcome correctness is \(o_c\in\{0,1\}\), use
+                calibration error over confidence bins \(B_b\):
+              </p>
+              <div class="math-card">\[
+                \mathrm{ECE}=\sum_b\frac{|B_b|}{|C|}
+                \left|\mathrm{acc}(B_b)-\mathrm{conf}(B_b)\right|,\quad
+                S_{\mathrm{uncert}}=1-\mathrm{ECE}
+              \]</div>
+              <p>If explicit confidence is unavailable, uncertainty language is mapped to ordinal confidence bins.</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> overconfidence, hedging when clear, missing recommendation when uncertain.</li>
               <li><strong>Failure labels:</strong> overconfident miss, unhelpful hedge, unsafe certainty.</li>
@@ -173,6 +298,20 @@
             <span>09</span>
             <h3>Tool-use discipline</h3>
             <p>For agentic settings, does the model retrieve useful context and avoid premature submission?</p>
+            <div class="formula-block">
+              <strong>Mathematical definition</strong>
+              <p>
+                Let \(A_c^\*\) be required actions, \(\hat{A}_c\) model actions, \(U_c\) unnecessary actions, and
+                \(P_c\) premature submission indicator.
+              </p>
+              <div class="math-card">\[
+                s_{\mathrm{tool}}(c)=
+                \frac{|A_c^\*\cap \hat{A}_c|}{|A_c^\*|+\epsilon}
+                -\lambda_u\frac{|U_c|}{|\hat{A}_c|+\epsilon}
+                -\lambda_p P_c
+              \]</div>
+              <p>The final value is clipped to \([0,1]\).</p>
+            </div>
             <ul>
               <li><strong>Score:</strong> required tool calls, unnecessary calls, skipped prior retrieval.</li>
               <li><strong>Failure labels:</strong> premature submission, unnecessary tool call, missed prior.</li>
