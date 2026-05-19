@@ -41,50 +41,7 @@ const metrics = [
   },
 ];
 
-const scorecards = {
-  baseline: {
-    name: "Baseline VLM",
-    risk: "High risk",
-    overall: 61,
-    scores: {
-      "Finding accuracy": 68,
-      "Critical safety": 45,
-      "Prior usage": 38,
-      "Report quality": 70,
-      Grounding: 56,
-    },
-  },
-  agent: {
-    name: "Agentic VLM",
-    risk: "Medium risk",
-    overall: 74,
-    scores: {
-      "Finding accuracy": 76,
-      "Critical safety": 66,
-      "Prior usage": 72,
-      "Report quality": 78,
-      Grounding: 70,
-    },
-  },
-  after: {
-    name: "After Fine-tuning",
-    risk: "Lower risk",
-    overall: 84,
-    scores: {
-      "Finding accuracy": 86,
-      "Critical safety": 81,
-      "Prior usage": 88,
-      "Report quality": 84,
-      Grounding: 82,
-    },
-  },
-};
-
 const metricBoard = document.querySelector("#metricBoard");
-const scoreBars = document.querySelector("#scoreBars");
-const modelName = document.querySelector("#modelName");
-const riskBadge = document.querySelector("#riskBadge");
-const radarCore = document.querySelector("#radarCore");
 
 function renderMetrics() {
   metricBoard.innerHTML = metrics
@@ -100,39 +57,4 @@ function renderMetrics() {
     .join("");
 }
 
-function renderScorecard(key) {
-  const card = scorecards[key];
-  modelName.textContent = card.name;
-  riskBadge.textContent = card.risk;
-  radarCore.textContent = card.overall;
-  riskBadge.style.background = key === "baseline" ? "#d86f59" : key === "agent" ? "#d8b15e" : "#0b7470";
-
-  scoreBars.innerHTML = Object.entries(card.scores)
-    .map(
-      ([label, score]) => `
-        <div class="score-row">
-          <span>${label}</span>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: ${score}%"></div>
-          </div>
-          <strong>${score}</strong>
-        </div>
-      `,
-    )
-    .join("");
-}
-
-document.querySelectorAll(".model-tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".model-tab").forEach((item) => {
-      item.classList.remove("active");
-      item.setAttribute("aria-pressed", "false");
-    });
-    tab.classList.add("active");
-    tab.setAttribute("aria-pressed", "true");
-    renderScorecard(tab.dataset.model);
-  });
-});
-
 renderMetrics();
-renderScorecard("baseline");

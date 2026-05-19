@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VeraRad | The Evaluation Layer for Medical AI Agents</title>
+    <title>VeraRad | Workflow Evaluation for Medical AI Agents</title>
     <meta
       name="description"
       content="VeraRad builds clinical workflow evaluations and post-training data exports for medical AI agents, starting with radiology."
     />
-    <meta property="og:title" content="VeraRad | The Evaluation Layer for Medical AI Agents" />
+    <meta property="og:title" content="VeraRad | Workflow Evaluation for Medical AI Agents" />
     <meta
       property="og:description"
       content="Evaluate whether medical multimodal models can work through radiology cases safely, use context, compare priors, and produce clinically usable reports."
@@ -16,10 +16,11 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://aaronluo00.github.io/verarad/" />
     <meta name="theme-color" content="#082f3a" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23082f3a'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-family='Arial' font-size='24' font-weight='700' fill='white'%3EVR%3C/text%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -45,98 +46,58 @@
     <main id="top">
       <section class="hero section-shell">
         <div class="hero-copy">
-          <p class="eyebrow">The evaluation layer for medical AI agents</p>
-          <h1>Clinical driving tests for medical AI agents.</h1>
+          <p class="eyebrow">Workflow-level evaluation for medical AI</p>
+          <h1>Evaluation environments for medical AI agents, starting with radiology.</h1>
           <p class="hero-subtitle">
-            VeraRad starts with radiology workflow evaluations for medical vision-language models, helping teams uncover
-            dangerous failure modes and convert them into post-training data.
+            VeraRad builds workflow-level evaluation suites that test whether multimodal medical models can use clinical
+            context, compare priors, detect urgent findings, and produce radiologist-acceptable reports.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#contact">Apply for pilot access</a>
-            <a class="button secondary" href="#platform">See the workflow</a>
+            <a class="button primary" href="#pilot">View pilot suite</a>
+            <a class="button secondary" href="eval-spec.html">Read evaluation spec</a>
           </div>
           <div class="hero-proof" aria-label="Pilot proof points">
             <div>
-              <span>Starting wedge</span>
-              <strong>ICU chest X-ray</strong>
-              <p>Context-heavy, high-frequency, safety-critical workflow cases.</p>
+              <span>First domain</span>
+              <strong>Radiology</strong>
+              <p>Image interpretation plus indication, prior comparison, urgency, and report quality.</p>
             </div>
             <div>
-              <span>First users</span>
-              <strong>Medical VLM teams</strong>
-              <p>Private evals before hospital pilots, partner demos, or model releases.</p>
+              <span>First suite</span>
+              <strong>ICU CXR</strong>
+              <p>Portable chest X-ray cases where small workflow mistakes can change patient risk.</p>
             </div>
             <div>
               <span>Output</span>
-              <strong>Failures to training data</strong>
-              <p>Scorecards, expert critiques, corrected reports, and retest sets.</p>
+              <strong>Failure analysis</strong>
+              <p>Scores, failure labels, expert corrections, training exports, and regression tests.</p>
             </div>
           </div>
         </div>
 
-        <aside class="product-shell" aria-label="Product interface preview">
-          <div class="window-bar">
-            <span></span>
-            <span></span>
-            <span></span>
-            <p>VeraRad Eval Console</p>
-          </div>
-          <div class="console-layout">
-            <div class="console-sidebar">
-              <span class="suite-badge">ICU CXR Suite</span>
-              <button type="button" class="active">Readiness</button>
-              <button type="button">Failures</button>
-              <button type="button">Cases</button>
-              <button type="button">Exports</button>
+        <aside class="abstract-card" aria-label="Project abstract">
+          <p class="card-label">Project abstract</p>
+          <h2>From benchmark score to model improvement signal.</h2>
+          <p>
+            Each evaluation produces not only a score, but a structured failure analysis that can be converted into SFT
+            examples, preference pairs, reward labels, and regression tests.
+          </p>
+          <div class="protocol-list" aria-label="Evaluation protocol summary">
+            <div>
+              <span>Inputs</span>
+              <p>Image, indication, prior report, concise EHR context.</p>
             </div>
-            <div class="console-main">
-              <div class="console-header">
-                <div>
-                  <p>Model readiness</p>
-                  <h2>Medical VLM Pilot</h2>
-                </div>
-                <span class="risk-pill">Medium risk</span>
-              </div>
-              <div class="readiness-grid">
-                <div class="readiness-score">
-                  <span>Overall</span>
-                  <strong>74</strong>
-                  <p>Clinical workflow readiness</p>
-                </div>
-                <div class="finding-card">
-                  <span>Highest-risk failure</span>
-                  <strong>Missed small apical pneumothorax</strong>
-                  <p>Critical finding not escalated despite worsening hypoxia context.</p>
-                </div>
-              </div>
-              <div class="metric-bars">
-                <div>
-                  <span>Critical safety</span>
-                  <i style="--value: 66%"></i>
-                  <strong>66</strong>
-                </div>
-                <div>
-                  <span>Prior comparison</span>
-                  <i style="--value: 72%"></i>
-                  <strong>72</strong>
-                </div>
-                <div>
-                  <span>Report acceptability</span>
-                  <i style="--value: 78%"></i>
-                  <strong>78</strong>
-                </div>
-              </div>
-              <div class="trace-card">
-                <div>
-                  <span>Post-training export</span>
-                  <strong>42 failure examples ready</strong>
-                </div>
-                <div class="tag-row">
-                  <em>critical miss</em>
-                  <em>prior anchoring</em>
-                  <em>EHR hallucination</em>
-                </div>
-              </div>
+            <div>
+              <span>Agent actions</span>
+              <p>View image, retrieve prior, inspect context, submit report, flag urgency.</p>
+            </div>
+            <div>
+              <span>Scoring</span>
+              <p>Finding accuracy, prior use, EHR grounding, urgency, report acceptability.</p>
+            </div>
+            <div>
+              <span>Training export</span>
+              <p>Expert corrections, preference pairs, reward annotations, retest cases.</p>
             </div>
           </div>
         </aside>
@@ -152,15 +113,15 @@
 
       <section id="problem" class="section-shell problem-section">
         <div>
-          <p class="eyebrow">Why now</p>
-          <h2>Static benchmarks miss clinical readiness.</h2>
+          <p class="eyebrow">Motivation</p>
+          <h2>Static benchmarks miss workflow failures.</h2>
           <p class="section-kicker">
-            Radiology AI fails in the workflow gaps: context use, prior comparison, urgency, and report quality.
+            A model can answer an image question correctly and still fail the clinical task.
           </p>
         </div>
         <div class="problem-cards">
           <article>
-            <h3>Real radiology is a workflow, not an image caption.</h3>
+            <h3>Radiology is not a single-image captioning task.</h3>
             <p>
               Deployment depends on clinical indication, prior comparison, urgency, uncertainty, and reporting style.
               Single-image scores rarely expose the failures that matter in practice.
@@ -178,8 +139,8 @@
 
       <section id="platform" class="section-shell platform-section">
         <div class="section-heading">
-          <p class="eyebrow">Platform</p>
-          <h2>Private evals that become a post-training data engine.</h2>
+          <p class="eyebrow">Evaluation protocol</p>
+          <h2>Private workflow evals that become post-training data.</h2>
           <p>
             We structure radiology cases as workflow tasks, score model behavior with clinical rubrics, and turn
             repeated failure modes into training assets your team can use.
@@ -211,39 +172,43 @@
 
       <section id="metrics" class="section-shell metrics-section">
         <div class="metrics-intro">
-          <p class="eyebrow">Clinical metrics</p>
-          <h2>Measure what blocks deployment.</h2>
-          <p>The first suite focuses on clinically meaningful behaviors instead of generic benchmark points.</p>
+          <p class="eyebrow">Metric families</p>
+          <h2>Measure behavior that static benchmarks omit.</h2>
+          <p>The first suite focuses on clinically meaningful behaviors rather than generic benchmark points.</p>
           <a class="inline-link" href="eval-spec.html">Read the evaluation spec</a>
         </div>
         <div class="metric-board" id="metricBoard"></div>
       </section>
 
-      <section class="section-shell report-section">
-        <div class="report-copy">
-          <p class="eyebrow">Pilot deliverable</p>
-          <h2>A readiness report that tells your team exactly what to fix.</h2>
+      <section class="section-shell example-section">
+        <div class="example-copy">
+          <p class="eyebrow">Example case</p>
+          <h2>Prior comparison quality</h2>
           <p>
-            Each pilot produces a scorecard, top failure modes, worst-case review, post-training recommendations, and
-            an exportable set of corrected examples.
+            In an ICU chest X-ray workflow, identifying a pneumothorax is not enough. The agent must compare the prior
+            exam, determine whether the finding is new, and escalate if the change is urgent.
           </p>
         </div>
-        <div class="scorecard">
-          <div class="scorecard-header">
-            <div>
-              <p>Readiness Score</p>
-              <h3 id="modelName">Baseline VLM</h3>
-            </div>
-            <span id="riskBadge">High risk</span>
+        <div class="case-card" aria-label="Prior comparison case example">
+          <div class="case-column">
+            <span>Construct case</span>
+            <h3>Portable CXR, worsening hypoxia</h3>
+            <p>Current image, indication, prior report, EHR context, reference report, and urgent finding label.</p>
           </div>
-          <div class="score-orb">
-            <div id="radarCore" aria-live="polite">61</div>
+          <div class="case-column">
+            <span>Evaluate</span>
+            <h3>Trace the workflow</h3>
+            <p>Did the model retrieve prior context before submitting the report? Did it state the finding is new?</p>
           </div>
-          <div class="bar-list" id="scoreBars"></div>
-          <div class="switcher" aria-label="Select scorecard">
-            <button type="button" class="model-tab active" data-model="baseline" aria-pressed="true">Baseline</button>
-            <button type="button" class="model-tab" data-model="agent" aria-pressed="false">Agentic</button>
-            <button type="button" class="model-tab" data-model="after" aria-pressed="false">After tuning</button>
+          <div class="case-column failure">
+            <span>Failure</span>
+            <h3>Found pneumothorax, missed change status</h3>
+            <p>Failure labels: missed prior retrieval, missing comparison, incomplete urgency reasoning.</p>
+          </div>
+          <div class="case-column">
+            <span>Export</span>
+            <h3>Post-training data</h3>
+            <p>SFT trajectory, preference pair, reward annotation, and regression test for future model releases.</p>
           </div>
         </div>
       </section>
